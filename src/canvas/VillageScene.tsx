@@ -10,7 +10,7 @@ interface VillageSceneProps {
 
 // Coordinates mapping for destinations in the village
 const nodeCoords: Record<string, THREE.Vector3> = {
-  overview: new THREE.Vector3(0, 0, 0),
+  overview: new THREE.Vector3(0, 0, 2.5),
   about: new THREE.Vector3(-3.5, 0, -2.5),
   tech: new THREE.Vector3(3.2, 0, -2.0),
   experience: new THREE.Vector3(-2.0, 0, 3.0),
@@ -588,7 +588,7 @@ export default function VillageScene({ activeSection, setActiveSection }: Villag
   const targetPos = useMemo(() => nodeCoords[activeSection] || nodeCoords.overview, [activeSection]);
   
   // Shared persistent coordinates reference for explorer boy
-  const characterPos = useMemo(() => new THREE.Vector3(0, 0, 0), []);
+  const characterPos = useMemo(() => new THREE.Vector3(0, 0, 2.5), []);
 
   return (
     <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: 0, pointerEvents: "none" }}>

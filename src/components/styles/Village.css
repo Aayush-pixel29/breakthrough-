@@ -1007,6 +1007,7 @@
 @media screen and (max-width: 1024px) {
   .telemetry-log-ticker {
     display: none;
+  }
   .rpg-terminal-console {
     display: none;
   }
