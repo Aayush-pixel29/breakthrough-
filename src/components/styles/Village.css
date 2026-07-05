@@ -1533,6 +1533,63 @@
   background: rgba(0, 0, 0, 0.05) !important;
 }
 
+/* High-visibility links and buttons */
+.arcade-links {
+  margin: 18px 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.arcade-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e1b18;
+  color: #fbbf24;
+  border: 1.8px solid #ca8a04;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.arcade-link-btn:hover {
+  background: #ca8a04;
+  color: #1e1b18;
+  box-shadow: 0 0 15px rgba(202, 138, 4, 0.6);
+  transform: translateY(-1.5px);
+}
+
+.hud-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fdfaf2;
+  color: #7c2d12;
+  border: 1.5px solid #3f2a14;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.hud-action-btn:hover {
+  background: #7c2d12;
+  color: #fdfaf2;
+  border-color: #7c2d12;
+}
+
 
 
 

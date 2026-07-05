@@ -96,12 +96,7 @@ main {
   opacity: 0;
 }
 
-/* Custom Cursor styling override */
-@media (pointer: fine) {
-  body, a, button, .interactive {
-    cursor: none !important;
-  }
-}
+
 
 /* Horizontal scrolling helper styling resets */
 .section-container {

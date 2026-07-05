@@ -4,28 +4,43 @@ export type GamePhase = "INTRO" | "PLAYING" | "OVERLAY_ACTIVE" | "SKIP_MODE";
 
 interface GameState {
   phase: GamePhase;
+  activeSection: string;
   activeChallenge: string | null;
   completedChallenges: string[];
+  skipMode: boolean;
   setPhase: (phase: GamePhase) => void;
+  setActiveSection: (section: string) => void;
   enterZone: (zoneId: string) => void;
+  exitZone: () => void;
   leaveZone: () => void;
   solveChallenge: (zoneId: string) => void;
   resetGame: () => void;
+  toggleSkipMode: () => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
   phase: "INTRO",
+  activeSection: "overview",
   activeChallenge: null,
   completedChallenges: JSON.parse(localStorage.getItem("completedChallenges") || "[]"),
+  skipMode: false,
   
   setPhase: (phase) => {
     set({ phase });
   },
-  
-  enterZone: (zoneId) => {
-    set({ activeChallenge: zoneId, phase: "OVERLAY_ACTIVE" });
+
+  setActiveSection: (section) => {
+    set({ activeSection: section });
   },
   
+  enterZone: (zoneId) => {
+    set({ activeSection: zoneId, phase: "OVERLAY_ACTIVE" });
+  },
+  
+  exitZone: () => {
+    set({ activeSection: "overview", phase: "PLAYING" });
+  },
+
   leaveZone: () => {
     set({ activeChallenge: null, phase: "PLAYING" });
   },
@@ -48,8 +63,14 @@ export const useGameStore = create<GameState>((set) => ({
     localStorage.removeItem("completedChallenges");
     set({
       phase: "PLAYING",
+      activeSection: "overview",
       activeChallenge: null,
       completedChallenges: [],
+      skipMode: false,
     });
+  },
+
+  toggleSkipMode: () => {
+    set((state) => ({ skipMode: !state.skipMode }));
   }
 }));
