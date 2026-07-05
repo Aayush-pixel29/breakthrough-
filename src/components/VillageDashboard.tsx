@@ -218,7 +218,7 @@ export default function VillageDashboard() {
     <div className={`village-main ${isCrtOn ? "crt-filter" : ""}`}>
       <Cursor />
       <SocialIcons />
-      <VillageScene activeSection={activeSection} />
+      <VillageScene activeSection={activeSection} setActiveSection={setActiveSection} />
 
       {/* Retro RPG HUD Status Header */}
       <header className="village-header">

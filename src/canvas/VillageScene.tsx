@@ -1,9 +1,10 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 interface VillageSceneProps {
   activeSection: string;
+  setActiveSection: (section: string) => void;
 }
 
 // Coordinates mapping for destinations in the village
@@ -15,29 +16,82 @@ const nodeCoords: Record<string, THREE.Vector3> = {
   projects: new THREE.Vector3(3.0, 0, 2.5),
 };
 
+// Keyboard listener hook for WASD & Arrow controls
+function useKeyboardControls() {
+  const [movement, setMovement] = useState({
+    moveForward: false,
+    moveBackward: false,
+    moveLeft: false,
+    moveRight: false,
+  });
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key.toLowerCase()) {
+        case "w":
+        case "arrowup":
+          setMovement((m) => ({ ...m, moveForward: true }));
+          break;
+        case "s":
+        case "arrowdown":
+          setMovement((m) => ({ ...m, moveBackward: true }));
+          break;
+        case "a":
+        case "arrowleft":
+          setMovement((m) => ({ ...m, moveLeft: true }));
+          break;
+        case "d":
+        case "arrowright":
+          setMovement((m) => ({ ...m, moveRight: true }));
+          break;
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      switch (e.key.toLowerCase()) {
+        case "w":
+        case "arrowup":
+          setMovement((m) => ({ ...m, moveForward: false }));
+          break;
+        case "s":
+        case "arrowdown":
+          setMovement((m) => ({ ...m, moveBackward: false }));
+          break;
+        case "a":
+        case "arrowleft":
+          setMovement((m) => ({ ...m, moveLeft: false }));
+          break;
+        case "d":
+        case "arrowright":
+          setMovement((m) => ({ ...m, moveRight: false }));
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  return movement;
+}
+
 // RPG Camera tracking controller following character
-function CameraController({ activeSection, characterPos }: { activeSection: string; characterPos: THREE.Vector3 }) {
+function CameraController({ characterPos }: { characterPos: THREE.Vector3 }) {
   const { camera } = useThree();
   const lookTarget = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
 
   useFrame(() => {
-    // 1. Position camera relative to the active target/character
-    let offset = new THREE.Vector3(0, 5, 8); // Overview camera offset
-    
-    if (activeSection === "about") {
-      offset.set(-1.8, 3.2, 4.5);
-    } else if (activeSection === "tech") {
-      offset.set(1.8, 3.2, 4.5);
-    } else if (activeSection === "experience") {
-      offset.set(-1.5, 3.5, 5.0);
-    } else if (activeSection === "projects") {
-      offset.set(1.5, 3.5, 5.0);
-    }
-
+    // Smoothly follow character with offset
+    const offset = new THREE.Vector3(0, 4.8, 7.2);
     const targetCamPos = new THREE.Vector3().copy(characterPos).add(offset);
     camera.position.lerp(targetCamPos, 0.05);
 
-    // 2. Camera looks at character pos
+    // Look at character
     lookTarget.current.lerp(characterPos, 0.05);
     camera.lookAt(lookTarget.current);
   });
@@ -46,41 +100,100 @@ function CameraController({ activeSection, characterPos }: { activeSection: stri
 }
 
 // The Walking Avatar (The Boy / Explorer / Agent Vector)
-function ExplorerAvatar({ targetPos, characterPos }: { targetPos: THREE.Vector3; characterPos: THREE.Vector3 }) {
+function ExplorerAvatar({ 
+  targetPos, 
+  characterPos,
+  activeSection,
+  setActiveSection 
+}: { 
+  targetPos: THREE.Vector3; 
+  characterPos: THREE.Vector3;
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+}) {
   const avatarRef = useRef<THREE.Group>(null);
   const bobRef = useRef<number>(0);
+  const keys = useKeyboardControls();
 
   useFrame((state) => {
-    const dist = characterPos.distanceTo(targetPos);
-    
-    if (dist > 0.05) {
-      // Lerp character position towards target
-      characterPos.lerp(targetPos, 0.06);
-      
-      // Face character in travel direction
-      if (avatarRef.current) {
-        const dir = new THREE.Vector3().subVectors(targetPos, characterPos).normalize();
-        const targetRotation = Math.atan2(dir.x, dir.z);
-        
-        // Interpolate rotation angle
-        avatarRef.current.rotation.y = THREE.MathUtils.lerp(
-          avatarRef.current.rotation.y,
-          targetRotation,
-          0.1
-        );
+    const isMovingWithKeys = keys.moveForward || keys.moveBackward || keys.moveLeft || keys.moveRight;
 
-        // Bob character vertically to simulate walking footsteps
-        bobRef.current += state.clock.getDelta() * 12;
-        avatarRef.current.position.y = Math.abs(Math.sin(bobRef.current)) * 0.12;
+    if (isMovingWithKeys) {
+      // 1. Manual Keyboard Traversal
+      const dir = new THREE.Vector3(0, 0, 0);
+      if (keys.moveForward) dir.z -= 1;
+      if (keys.moveBackward) dir.z += 1;
+      if (keys.moveLeft) dir.x -= 1;
+      if (keys.moveRight) dir.x += 1;
+
+      if (dir.lengthSq() > 0) {
+        dir.normalize().multiplyScalar(0.08); // Speed coefficient
+        characterPos.add(dir);
+        
+        // Boundaries clamps
+        characterPos.x = THREE.MathUtils.clamp(characterPos.x, -8, 8);
+        characterPos.z = THREE.MathUtils.clamp(characterPos.z, -8, 8);
+
+        // Rotate face angle
+        const targetRotation = Math.atan2(dir.x, dir.z);
+        if (avatarRef.current) {
+          avatarRef.current.rotation.y = THREE.MathUtils.lerp(
+            avatarRef.current.rotation.y,
+            targetRotation,
+            0.15
+          );
+        }
+
+        // Bob vertical footsteps
+        bobRef.current += state.clock.getDelta() * 14;
+        if (avatarRef.current) {
+          avatarRef.current.position.y = Math.abs(Math.sin(bobRef.current)) * 0.12;
+        }
       }
+
+      // Check proximity to trigger section logs on overlay dashboard
+      let closestSection = activeSection;
+      let minDistance = 1.25;
+
+      Object.entries(nodeCoords).forEach(([section, pos]) => {
+        const dist = characterPos.distanceTo(pos);
+        if (dist < minDistance) {
+          closestSection = section;
+        }
+      });
+
+      if (closestSection !== activeSection) {
+        setActiveSection(closestSection);
+      }
+
     } else {
-      // Return character to ground level when idle
-      if (avatarRef.current) {
-        avatarRef.current.position.y = THREE.MathUtils.lerp(avatarRef.current.position.y, 0, 0.1);
+      // 2. Automated Path Travel (Lerping to active click coordinates)
+      const dist = characterPos.distanceTo(targetPos);
+      
+      if (dist > 0.05) {
+        characterPos.lerp(targetPos, 0.06);
+        
+        if (avatarRef.current) {
+          const dir = new THREE.Vector3().subVectors(targetPos, characterPos).normalize();
+          const targetRotation = Math.atan2(dir.x, dir.z);
+          avatarRef.current.rotation.y = THREE.MathUtils.lerp(
+            avatarRef.current.rotation.y,
+            targetRotation,
+            0.1
+          );
+
+          bobRef.current += state.clock.getDelta() * 12;
+          avatarRef.current.position.y = Math.abs(Math.sin(bobRef.current)) * 0.12;
+        }
+      } else {
+        // Return avatar to ground when idle
+        if (avatarRef.current) {
+          avatarRef.current.position.y = THREE.MathUtils.lerp(avatarRef.current.position.y, 0, 0.1);
+        }
       }
     }
 
-    // Update physical coordinates
+    // Bind physical coordinates
     if (avatarRef.current) {
       avatarRef.current.position.x = characterPos.x;
       avatarRef.current.position.z = characterPos.z;
@@ -265,8 +378,8 @@ function ProjectWorkshop() {
 // 3D Skill Orchard / Forest Trees (SKILLS)
 function SkillOrchard() {
   const trees = [
-    { pos: [2.5, 0, -2.5], color: "#39FF14", scale: 0.6, type: "cherry" }, // neon yolo green
-    { pos: [3.6, 0, -2.0], color: "#00F0FF", scale: 0.5, type: "autumn" },  // cyan tracking
+    { pos: [2.5, 0, -2.5], color: "#39FF14", scale: 0.6, type: "cherry" }, 
+    { pos: [3.6, 0, -2.0], color: "#00F0FF", scale: 0.5, type: "autumn" },  
     { pos: [1.8, 0, -1.8], color: "#39FF14", scale: 0.55, type: "pine" },  
     { pos: [2.8, 0, -1.2], color: "#00F0FF", scale: 0.45, type: "golden" } 
   ];
@@ -361,27 +474,22 @@ function DirtPaths() {
       <gridHelper args={[26, 26, "#1f5f1f", "#111115"]} position={[0, -0.01, 0]} />
 
       {/* Dirt path planes layered just above ground (styled dark green-gray traces) */}
-      {/* Center to Cottage */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-1.7, 0.001, -1.2]}>
         <planeGeometry args={[3.2, 0.65]} />
         <meshStandardMaterial color="#142618" roughness={0.9} />
       </mesh>
-      {/* Center to Windmill */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-1.0, 0.001, 1.5]}>
         <planeGeometry args={[0.65, 3.0]} />
         <meshStandardMaterial color="#142618" roughness={0.9} />
       </mesh>
-      {/* Center to Projects */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[1.5, 0.001, 1.2]}>
         <planeGeometry args={[3.0, 0.65]} />
         <meshStandardMaterial color="#142618" roughness={0.9} />
       </mesh>
-      {/* Center to Skills */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[1.6, 0.001, -1.0]}>
         <planeGeometry args={[3.2, 0.65]} />
         <meshStandardMaterial color="#142618" roughness={0.9} />
       </mesh>
-      {/* Center to Mailbox */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.001, 2.0]}>
         <planeGeometry args={[0.65, 4.0]} />
         <meshStandardMaterial color="#142618" roughness={0.9} />
@@ -433,9 +541,11 @@ function Fireflies() {
   );
 }
 
-export default function VillageScene({ activeSection }: VillageSceneProps) {
-  // Main coordinate tracking vector
+export default function VillageScene({ activeSection, setActiveSection }: VillageSceneProps) {
+  // Target coordinates for automated click travel
   const targetPos = useMemo(() => nodeCoords[activeSection] || nodeCoords.overview, [activeSection]);
+  
+  // Shared persistent coordinates reference for explorer boy
   const characterPos = useMemo(() => new THREE.Vector3(0, 0, 0), []);
 
   return (
@@ -455,10 +565,9 @@ export default function VillageScene({ activeSection }: VillageSceneProps) {
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
-        {/* Soft Cyan fill light */}
         <directionalLight position={[-8, -5, -4]} intensity={0.5} color="#00F0FF" />
         
-        <CameraController activeSection={activeSection} characterPos={characterPos} />
+        <CameraController characterPos={characterPos} />
         <DirtPaths />
         <CozyCottage />
         <Windmill />
@@ -467,7 +576,12 @@ export default function VillageScene({ activeSection }: VillageSceneProps) {
         <Mailbox />
         <Fireflies />
         
-        <ExplorerAvatar targetPos={targetPos} characterPos={characterPos} />
+        <ExplorerAvatar 
+          targetPos={targetPos} 
+          characterPos={characterPos} 
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+        />
       </Canvas>
     </div>
   );
