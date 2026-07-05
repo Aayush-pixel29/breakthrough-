@@ -1,0 +1,643 @@
+.village-main {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #2b2d42; /* Soft twilight background color */
+  color: #333333;
+  font-family: 'Space Grotesk', sans-serif;
+  user-select: none;
+}
+
+/* Cozy RPG Header Status */
+.village-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  border-bottom: 2px solid #5c3d2e;
+  background: rgba(43, 45, 66, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  box-sizing: border-box;
+  color: #ffffff;
+}
+
+.hud-quest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #fbbf24; /* Golden quest title */
+}
+
+.rpg-header-icon {
+  font-size: 18px;
+}
+
+.hud-player-status {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  font-family: monospace;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.hud-mail-btn {
+  color: #ffffff;
+  background: #7c2d12;
+  border: 1px solid #9a3412;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hud-mail-btn:hover {
+  background: #9a3412;
+  box-shadow: 0 4px 8px rgba(124, 45, 18, 0.4);
+}
+
+/* Rustic Village Signpost */
+.village-signpost {
+  position: fixed;
+  top: 100px;
+  left: 40px;
+  width: 280px;
+  z-index: 90;
+  box-sizing: border-box;
+}
+
+.sign-board-top {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #ffffff;
+  background: #5c3d2e;
+  border: 2px solid #3f2a14;
+  border-radius: 4px;
+  padding: 6px 12px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.village-signpost ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+/* Wood signpost pole indicator line */
+.village-signpost ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 6px;
+  height: 100%;
+  background: #3f2a14;
+  z-index: -1;
+  border-radius: 3px;
+}
+
+.village-signpost li {
+  margin-bottom: 15px;
+}
+
+.village-signpost button {
+  width: 100%;
+  background: #8b5a2b;
+  border: 2px solid #5c3d2e;
+  border-radius: 6px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  color: #fef3c7; /* Warm straw-cream color */
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s;
+}
+
+.village-signpost button:hover {
+  background: #a0522d;
+  transform: rotateZ(1.5deg) translateX(4px);
+}
+
+.village-signpost li.active button {
+  background: #7c2d12;
+  border-color: #9a3412;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
+  transform: rotateZ(-1.5deg);
+}
+
+.sign-icon {
+  font-size: 16px;
+  color: #fbbf24;
+}
+
+/* Parchment Dialogue Terminal overlays */
+.village-terminal {
+  position: fixed;
+  top: 100px;
+  right: 40px;
+  bottom: 80px;
+  left: 360px;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.parchment-panel {
+  width: 500px;
+  height: 100%;
+  background: #fcf8f2; /* Parchment cream */
+  border: 4px solid #5c3d2e; /* Warm wood border */
+  border-radius: 8px;
+  padding: 35px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  position: absolute;
+  right: 0;
+  color: #3f2a14; /* Dark wood text */
+}
+
+.parchment-panel.panel-wide {
+  width: 600px;
+}
+
+.parchment-panel.panel-extra-wide {
+  width: 840px;
+}
+
+.parchment-panel h2 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #7c2d12; /* Terracotta red heading */
+}
+
+.parchment-panel .rpg-subtitle {
+  font-family: monospace;
+  font-size: 11px;
+  color: #a0522d;
+  margin-top: 4px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.divider-gold {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #d97706, transparent);
+  margin: 15px 0;
+}
+
+.parchment-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.scroll-parchment::-webkit-scrollbar,
+.parchment-body::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-parchment::-webkit-scrollbar-thumb,
+.parchment-body::-webkit-scrollbar-thumb {
+  background: #cb997e;
+  border-radius: 3px;
+}
+
+.rpg-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3f2a14;
+  margin-bottom: 20px;
+}
+
+.quest-log-box {
+  background: #f0e6d2;
+  border: 1px dashed #cb997e;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-top: 15px;
+}
+
+.quest-log-box h4 {
+  font-size: 13px;
+  margin: 0 0 10px 0;
+  color: #7c2d12;
+}
+
+.quest-log-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quest-log-box li {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #5c3d2e;
+}
+
+.quest-log-box li:last-child {
+  margin-bottom: 0;
+}
+
+.rpg-para {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #4a3728;
+  margin-bottom: 20px;
+}
+
+.rpg-para-sm {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #8b5a2b;
+}
+
+/* Stat Grid for Cottage occupant */
+.rpg-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.rpg-stat-card {
+  background: #f5edd8;
+  border: 1px solid #e6d8b8;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.rpg-stat-card span {
+  font-family: monospace;
+  font-size: 9px;
+  color: #8b5a2b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.rpg-stat-card h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #7c2d12;
+}
+
+/* Skill Orchard panel styles */
+.orchard-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.orchard-canvas-frame {
+  flex: 1;
+  width: 100%;
+  min-height: 250px;
+  border: 2px solid #cbd5e1;
+  background: #0d0d12; /* dark canvas for high-contrast glowing bubble techstack */
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Timeline Logs */
+.rpg-timeline {
+  position: relative;
+  padding-left: 20px;
+  border-left: 2px solid #cb997e;
+  margin-top: 10px;
+}
+
+.rpg-timeline-item {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.rpg-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8b5a2b;
+  border: 2px solid #fcf8f2;
+}
+
+.rpg-timeline-item:first-child::before {
+  background: #d97706; /* Active orange glow */
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.item-header .year {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 13px;
+  color: #7c2d12;
+}
+
+.badge {
+  font-family: monospace;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: #e6d8b8;
+  color: #8b5a2b;
+  border: 1px solid #d9cbab;
+}
+
+.badge.badge-active {
+  background: #fef3c7;
+  color: #d97706;
+  border-color: #fde68a;
+}
+
+.rpg-timeline-item h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: #3f2a14;
+}
+
+.rpg-timeline-item h5 {
+  font-size: 13px;
+  font-weight: normal;
+  color: #8b5a2b;
+  margin: 2px 0 8px 0;
+}
+
+.rpg-timeline-item p {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #5c3d2e;
+  margin: 0;
+}
+
+/* Workshop Blueprint selector */
+.workshop-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+  height: 100%;
+}
+
+.workshop-menu {
+  border-right: 1px dashed #cb997e;
+  padding-right: 20px;
+}
+
+.workshop-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workshop-menu li {
+  margin-bottom: 8px;
+}
+
+.workshop-menu button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: #8b5a2b;
+  padding: 8px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+  font-weight: bold;
+  border-bottom: 1px dotted #cb997e;
+  border-radius: 4px;
+}
+
+.workshop-menu button div {
+  font-size: 12px;
+  color: #3f2a14;
+  margin-top: 2px;
+}
+
+.workshop-menu button:hover {
+  background: #f0e6d2;
+  transform: translateX(4px);
+}
+
+.workshop-menu li.selected button {
+  background: #e6d8b8;
+  color: #7c2d12;
+  border-bottom-color: #7c2d12;
+}
+
+.blueprint-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.blueprint-detail h3 {
+  font-size: 20px;
+  margin: 0 0 2px 0;
+  color: #7c2d12;
+}
+
+.cat-lbl {
+  font-family: monospace;
+  font-size: 10px;
+  color: #8b5a2b;
+  letter-spacing: 0.5px;
+}
+
+.blueprint-img-border {
+  width: 100%;
+  height: 150px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid #cbd5e1;
+  background: #0d0d12;
+  margin-bottom: 12px;
+}
+
+.blueprint-img-border img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blueprint-desc h5 {
+  font-family: monospace;
+  font-size: 10px;
+  color: #8b5a2b;
+  margin: 0 0 4px 0;
+  letter-spacing: 1px;
+}
+
+.blueprint-desc p {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.blueprint-desc p.tools-spec {
+  color: #7c2d12;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.blueprint-desc p.description-spec {
+  color: #5c3d2e;
+}
+
+.blueprint-link {
+  width: 100%;
+  padding: 10px;
+  background: #d97706;
+  border: 1px solid #b45309;
+  border-radius: 4px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.blueprint-link:hover {
+  background: #b45309;
+  box-shadow: 0 4px 8px rgba(180, 83, 9, 0.4);
+}
+
+/* Cozy Village Footer */
+.village-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #cbd5e1;
+  border-top: 2px solid #5c3d2e;
+  background: rgba(43, 45, 66, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Keyframe fades */
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive constraints */
+@media screen and (max-width: 1024px) {
+  .village-signpost {
+    width: 220px;
+    left: 20px;
+  }
+  .village-terminal {
+    left: 280px;
+    right: 20px;
+  }
+  .parchment-panel {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .village-header {
+    padding: 0 20px;
+  }
+  .hud-player-status {
+    display: none;
+  }
+  .village-signpost {
+    position: static;
+    width: calc(100% - 40px);
+    margin: 80px auto 20px auto;
+  }
+  .village-signpost ul::before {
+    display: none;
+  }
+  .village-terminal {
+    position: static;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    height: auto;
+  }
+  .parchment-panel {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin-bottom: 80px;
+  }
+  .village-main {
+    overflow-y: auto;
+    height: auto;
+  }
+}
