@@ -9,6 +9,7 @@ interface GameState {
   completedChallenges: string[];
   skipMode: boolean;
   voiceEnabled: boolean;
+  isTransitioning: boolean;
   setPhase: (phase: GamePhase) => void;
   setActiveSection: (section: string) => void;
   enterZone: (zoneId: string) => void;
@@ -18,6 +19,7 @@ interface GameState {
   resetGame: () => void;
   toggleSkipMode: () => void;
   toggleVoice: () => void;
+  setTransitioning: (status: boolean) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -27,6 +29,7 @@ export const useGameStore = create<GameState>((set) => ({
   completedChallenges: JSON.parse(localStorage.getItem("completedChallenges") || "[]"),
   skipMode: false,
   voiceEnabled: true,
+  isTransitioning: false,
   
   setPhase: (phase) => {
     set({ phase });
@@ -79,5 +82,9 @@ export const useGameStore = create<GameState>((set) => ({
   
   toggleVoice: () => {
     set((state) => ({ voiceEnabled: !state.voiceEnabled }));
+  },
+
+  setTransitioning: (status) => {
+    set({ isTransitioning: status });
   }
 }));

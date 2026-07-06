@@ -1,10 +1,12 @@
-import StoryModeDashboard from "./components/StoryModeDashboard";
-import { LoadingProvider } from "./context/LoadingProvider";
+import CinematicVillage from "./canvas/CinematicVillage";
+import TourOverlay from "./components/TourOverlay";
+import "./index.css";
 
 export default function App() {
   return (
-    <LoadingProvider>
-      <StoryModeDashboard />
-    </LoadingProvider>
+    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
+      <CinematicVillage />
+      <TourOverlay />
+    </div>
   );
 }
