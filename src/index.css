@@ -9,15 +9,15 @@
 :root {
   -webkit-user-select: none;
   -moz-user-select: none;
-  --accentColor: #00e699; /* Aayush's neon green */
-  --accentColor2: #c2a4ff; /* Moncy's pastel purple */
-  --backgroundColor: #0b080c;
+  --accentColor: #d97706;
+  --accentColor2: #166534;
+  --backgroundColor: #e0f2fe;
   --vh: 100vh;
   --vh: 100svh;
   
-  --bg-dark: #0b080c;
-  --text-main: #ffffff;
-  --text-soft: #a3a3a3;
+  --bg-dark: #e0f2fe;
+  --text-main: #3f2a14;
+  --text-soft: #5c3d2e;
 }
 
 html, body, #root {

@@ -1,584 +1,600 @@
+/* ─── Vibrant Cartoon RPG Village Theme ─── */
+
 .village-main {
   width: 100vw;
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background-color: #2b2d42; /* Soft twilight background color */
-  color: #333333;
-  font-family: 'Space Grotesk', sans-serif;
+  background-color: #e0f2fe;
+  color: #3f2a14;
+  font-family: 'Space Grotesk', Georgia, serif;
   user-select: none;
 }
 
-/* Cozy RPG Header Status */
+.village-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── Top Navigation Bar ─── */
+
 .village-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 40px;
-  border-bottom: 2px solid #5c3d2e;
-  background: rgba(43, 45, 66, 0.85);
-  backdrop-filter: blur(6px);
+  padding: 16px 24px;
   z-index: 100;
   box-sizing: border-box;
-  color: #ffffff;
 }
 
-.hud-quest {
+.hud-nav-group {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  pointer-events: auto;
+}
+
+.hud-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdfaf2;
+  color: #5c3d2e;
+  border: 2px solid #8b5a2b;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: bold;
-  letter-spacing: 0.5px;
-  color: #fbbf24; /* Golden quest title */
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 8px rgba(63, 42, 20, 0.15);
+  text-decoration: none;
+}
+
+.hud-nav-btn:hover {
+  background: #f5edd8;
+  transform: translateY(-1px);
+}
+
+.hud-nav-btn.active {
+  background: #fbbf24;
+  color: #78350f;
+  border-color: #d97706;
+}
+
+.hud-nav-btn-secondary {
+  background: rgba(253, 250, 242, 0.92);
+  backdrop-filter: blur(4px);
 }
 
 .rpg-header-icon {
   font-size: 18px;
 }
 
-.hud-player-status {
-  display: flex;
+.hud-action-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 25px;
-  font-family: monospace;
-  font-size: 13px;
-  color: #cbd5e1;
-}
-
-.hud-mail-btn {
-  color: #ffffff;
-  background: #7c2d12;
-  border: 1px solid #9a3412;
-  border-radius: 4px;
-  padding: 6px 14px;
+  gap: 6px;
+  background: #fdfaf2;
+  color: #7c2d12;
+  border: 2px solid #8b5a2b;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: inherit;
   font-size: 13px;
   font-weight: bold;
   text-decoration: none;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  cursor: pointer;
 }
 
-.hud-mail-btn:hover {
-  background: #9a3412;
-  box-shadow: 0 4px 8px rgba(124, 45, 18, 0.4);
+.hud-action-btn:hover {
+  background: #7c2d12;
+  color: #fdfaf2;
+  border-color: #7c2d12;
 }
 
-/* Rustic Village Signpost */
-.village-signpost {
+/* ─── Quest Diary — Wooden Scroll (Right Column) ─── */
+
+.cozy-quest-diary {
   position: fixed;
-  top: 100px;
-  left: 40px;
-  width: 280px;
+  top: 80px;
+  right: 24px;
+  width: 260px;
+  background: linear-gradient(180deg, #fdf6e3 0%, #f5edd8 100%);
+  border: 3px solid #8b5a2b;
+  border-radius: 4px 4px 12px 12px;
+  padding: 16px 18px;
   z-index: 90;
   box-sizing: border-box;
+  font-family: Georgia, 'Times New Roman', serif;
+  box-shadow:
+    0 8px 24px rgba(63, 42, 20, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  pointer-events: auto;
 }
 
-.sign-board-top {
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: #ffffff;
-  background: #5c3d2e;
-  border: 2px solid #3f2a14;
-  border-radius: 4px;
-  padding: 6px 12px;
-  text-align: center;
+.cozy-quest-diary::before,
+.cozy-quest-diary::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 28px;
+  height: 14px;
+  background: #8b5a2b;
+  border-radius: 4px 4px 0 0;
+}
+
+.cozy-quest-diary::before { left: 20px; }
+.cozy-quest-diary::after { right: 20px; }
+
+.diary-header {
+  font-size: 15px;
   font-weight: bold;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  color: #7c2d12;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #d9cbab;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.village-signpost ul {
+.diary-checklist {
   list-style: none;
   padding: 0;
   margin: 0;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Wood signpost pole indicator line */
-.village-signpost ul::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 30px;
-  width: 6px;
-  height: 100%;
-  background: #3f2a14;
-  z-index: -1;
-  border-radius: 3px;
-}
-
-.village-signpost li {
-  margin-bottom: 15px;
-}
-
-.village-signpost button {
-  width: 100%;
-  background: #8b5a2b;
-  border: 2px solid #5c3d2e;
-  border-radius: 6px;
-  padding: 10px 16px;
+.diary-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-align: left;
-  color: #fef3c7; /* Warm straw-cream color */
-  font-family: inherit;
-  font-size: 12px;
+  gap: 10px;
+  font-size: 13px;
+  color: #5c3d2e;
+  line-height: 1.4;
+}
+
+.diary-item span:first-child {
+  font-size: 15px;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.diary-item.completed {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.diary-summary {
+  font-size: 11px;
   font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.25s;
+  color: #7c2d12;
+  text-align: right;
+  border-top: 1px dashed #d9cbab;
+  padding-top: 10px;
+  margin-top: 12px;
 }
 
-.village-signpost button:hover {
-  background: #a0522d;
-  transform: rotateZ(1.5deg) translateX(4px);
-}
+/* ─── Bottom HUD — Parchment Dialogue Scroll ─── */
 
-.village-signpost li.active button {
-  background: #7c2d12;
-  border-color: #9a3412;
-  color: #ffffff;
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
-  transform: rotateZ(-1.5deg);
-}
-
-.sign-icon {
-  font-size: 16px;
-  color: #fbbf24;
-}
-
-/* Parchment Dialogue Terminal overlays */
-.village-terminal {
+.rpg-dialogue-scroll {
   position: fixed;
-  top: 100px;
-  right: 40px;
-  bottom: 80px;
-  left: 360px;
-  z-index: 90;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, calc(100% - 48px));
+  z-index: 95;
+  pointer-events: auto;
+}
+
+.dialogue-scroll-inner {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: linear-gradient(135deg, #f4e4bc 0%, #ede0c4 50%, #f4e4bc 100%);
+  border: 4px solid #8b5a2b;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow:
+    0 12px 32px rgba(63, 42, 20, 0.25),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.dialogue-scroll-inner::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed #cb997e;
+  border-radius: 8px;
   pointer-events: none;
 }
 
-.parchment-panel {
-  width: 500px;
-  height: 100%;
-  background: #fcf8f2; /* Parchment cream */
-  border: 4px solid #5c3d2e; /* Warm wood border */
-  border-radius: 8px;
-  padding: 35px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  pointer-events: auto;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+.dialogue-npc-portrait {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  background: #1e3a8a;
+  border-radius: 50%;
+  border: 3px solid #fdfaf2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.portrait-head {
   position: absolute;
-  right: 0;
-  color: #3f2a14; /* Dark wood text */
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  background: #fcd34d;
+  border-radius: 50%;
+  z-index: 2;
 }
 
-.parchment-panel.panel-wide {
-  width: 600px;
+.portrait-suit {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 32px;
+  background: #1e3a8a;
+  border-radius: 8px 8px 0 0;
 }
 
-.parchment-panel.panel-extra-wide {
-  width: 840px;
+.portrait-tie {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 18px;
+  background: #dc2626;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.dialogue-scroll-content {
+  flex: 1;
+  min-width: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.dialogue-header {
+  font-size: 13px;
+  font-weight: bold;
+  color: #7c2d12;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dialogue-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: dialoguePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dialoguePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.dialogue-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3f2a14;
+  margin: 0;
+  min-height: 2.5rem;
+}
+
+.dialogue-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #7c2d12;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 0.8s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.dialogue-close-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 36px;
+  height: 36px;
+  background: #dc2626;
+  color: #ffffff;
+  border: 3px solid #8b5a2b;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.dialogue-close-btn:hover {
+  background: #b91c1c;
+  transform: scale(1.08);
+}
+
+/* ─── Cozy Village Footer ─── */
+
+.village-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 12px;
+  color: #5c3d2e;
+  border-top: 2px solid #8b5a2b;
+  background: rgba(253, 250, 242, 0.92);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-left kbd {
+  background: #f5edd8;
+  border: 1px solid #cb997e;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.availability-pulse {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 11px;
+  color: #15803d;
+}
+
+/* ─── Skip Mode — Executive Parchment Summary ─── */
+
+.skip-mode-parchment {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f5edd8 40%, #fdf6e3 100%);
+}
+
+.skip-mode-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+.skip-mode-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 3px double #8b5a2b;
+}
+
+.skip-mode-header h1 {
+  font-size: 2.5rem;
+  color: #166534;
+  font-family: Georgia, serif;
+  margin: 0 0 8px;
+}
+
+.skip-mode-subtitle {
+  font-size: 1.1rem;
+  color: #5c3d2e;
+  margin: 0 0 20px;
+  font-style: italic;
+}
+
+.skip-return-btn {
+  font-size: 14px;
+}
+
+.skip-mode-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.rpg-section-card {
+  background: #fdfaf2;
+  border: 2px solid #d9cbab;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(63, 42, 20, 0.08);
+}
+
+.rpg-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #7c2d12;
+  margin: 0 0 12px;
+  font-family: Georgia, serif;
+}
+
+.rpg-para {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4a3728;
+  margin: 0 0 16px;
+}
+
+.skip-project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.skip-project-card {
+  background: #ffffff;
+  border: 1px solid #e6d8b8;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.skip-project-card h3 {
+  font-size: 1.1rem;
+  color: #166534;
+  margin: 0 0 8px;
+}
+
+.skip-project-card p {
+  font-size: 14px;
+  color: #5c3d2e;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.skip-project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #15803d;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.skip-project-link:hover {
+  text-decoration: underline;
+}
+
+/* ─── 3D HTML Nameplates ─── */
+
+.npc-nameplate {
+  background: rgba(253, 250, 242, 0.95);
+  border: 2px solid #8b5a2b;
+  border-radius: 6px;
+  padding: 4px 12px;
+  text-align: center;
+  font-family: Georgia, serif;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(63, 42, 20, 0.25);
+  pointer-events: none;
+  user-select: none;
+}
+
+.npc-title {
+  font-size: 10px;
+  font-weight: bold;
+  color: #7c2d12;
+  letter-spacing: 0.5px;
+}
+
+.npc-subtitle {
+  font-size: 8px;
+  color: #8b5a2b;
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.player-nameplate {
+  background: rgba(234, 88, 12, 0.92);
+  border: 2px solid #fef3c7;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-family: Georgia, serif;
+  font-size: 9px;
+  font-weight: bold;
+  color: #ffffff;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Parchment Panel Utilities (overlays) ─── */
+
+.parchment-panel {
+  background: #fcf8f2;
+  border: 4px solid #8b5a2b;
+  border-radius: 8px;
+  padding: 28px;
+  box-sizing: border-box;
+  color: #3f2a14;
+  box-shadow: 0 16px 40px rgba(63, 42, 20, 0.2);
 }
 
 .parchment-panel h2 {
-  font-size: 28px;
+  font-size: 24px;
   margin: 0;
   font-weight: bold;
-  letter-spacing: 1px;
-  color: #7c2d12; /* Terracotta red heading */
-}
-
-.parchment-panel .rpg-subtitle {
-  font-family: monospace;
-  font-size: 11px;
-  color: #a0522d;
-  margin-top: 4px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  letter-spacing: 1px;
+  color: #7c2d12;
+  font-family: Georgia, serif;
 }
 
 .divider-gold {
   width: 100%;
   height: 2px;
   background: linear-gradient(to right, transparent, #d97706, transparent);
-  margin: 15px 0;
-}
-
-.parchment-body {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 5px;
-}
-
-.scroll-parchment::-webkit-scrollbar,
-.parchment-body::-webkit-scrollbar {
-  width: 6px;
-}
-.scroll-parchment::-webkit-scrollbar-thumb,
-.parchment-body::-webkit-scrollbar-thumb {
-  background: #cb997e;
-  border-radius: 3px;
-}
-
-.rpg-desc {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #3f2a14;
-  margin-bottom: 20px;
+  margin: 14px 0;
 }
 
 .quest-log-box {
   background: #f0e6d2;
   border: 1px dashed #cb997e;
   border-radius: 6px;
-  padding: 16px 20px;
-  margin-top: 15px;
+  padding: 14px 18px;
+  margin-top: 12px;
 }
 
-.quest-log-box h4 {
-  font-size: 13px;
-  margin: 0 0 10px 0;
-  color: #7c2d12;
-}
+/* ─── Animations ─── */
 
-.quest-log-box ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.quest-log-box li {
-  font-size: 13px;
-  margin-bottom: 8px;
-  color: #5c3d2e;
-}
-
-.quest-log-box li:last-child {
-  margin-bottom: 0;
-}
-
-.rpg-para {
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: #4a3728;
-  margin-bottom: 20px;
-}
-
-.rpg-para-sm {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #8b5a2b;
-}
-
-/* Stat Grid for Cottage occupant */
-.rpg-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.rpg-stat-card {
-  background: #f5edd8;
-  border: 1px solid #e6d8b8;
-  border-radius: 6px;
-  padding: 12px;
-  text-align: center;
-}
-
-.rpg-stat-card span {
-  font-family: monospace;
-  font-size: 9px;
-  color: #8b5a2b;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.rpg-stat-card h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: bold;
-  color: #7c2d12;
-}
-
-/* Skill Orchard panel styles */
-.orchard-body {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.orchard-canvas-frame {
-  flex: 1;
-  width: 100%;
-  min-height: 250px;
-  border: 2px solid #cbd5e1;
-  background: #0d0d12; /* dark canvas for high-contrast glowing bubble techstack */
-  border-radius: 6px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-}
-
-/* Timeline Logs */
-.rpg-timeline {
-  position: relative;
-  padding-left: 20px;
-  border-left: 2px solid #cb997e;
-  margin-top: 10px;
-}
-
-.rpg-timeline-item {
-  position: relative;
-  margin-bottom: 25px;
-}
-
-.rpg-timeline-item::before {
-  content: "";
-  position: absolute;
-  left: -25px;
-  top: 5px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #8b5a2b;
-  border: 2px solid #fcf8f2;
-}
-
-.rpg-timeline-item:first-child::before {
-  background: #d97706; /* Active orange glow */
-}
-
-.item-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 4px;
-}
-
-.item-header .year {
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 13px;
-  color: #7c2d12;
-}
-
-.badge {
-  font-family: monospace;
-  font-size: 9px;
-  padding: 1px 4px;
-  border-radius: 2px;
-  background: #e6d8b8;
-  color: #8b5a2b;
-  border: 1px solid #d9cbab;
-}
-
-.badge.badge-active {
-  background: #fef3c7;
-  color: #d97706;
-  border-color: #fde68a;
-}
-
-.rpg-timeline-item h4 {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0;
-  color: #3f2a14;
-}
-
-.rpg-timeline-item h5 {
-  font-size: 13px;
-  font-weight: normal;
-  color: #8b5a2b;
-  margin: 2px 0 8px 0;
-}
-
-.rpg-timeline-item p {
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: #5c3d2e;
-  margin: 0;
-}
-
-/* Workshop Blueprint selector */
-.workshop-body {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 30px;
-  height: 100%;
-}
-
-.workshop-menu {
-  border-right: 1px dashed #cb997e;
-  padding-right: 20px;
-}
-
-.workshop-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.workshop-menu li {
-  margin-bottom: 8px;
-}
-
-.workshop-menu button {
-  width: 100%;
-  background: transparent;
-  border: none;
-  text-align: left;
-  color: #8b5a2b;
-  padding: 8px 10px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: inherit;
-  font-weight: bold;
-  border-bottom: 1px dotted #cb997e;
-  border-radius: 4px;
-}
-
-.workshop-menu button div {
-  font-size: 12px;
-  color: #3f2a14;
-  margin-top: 2px;
-}
-
-.workshop-menu button:hover {
-  background: #f0e6d2;
-  transform: translateX(4px);
-}
-
-.workshop-menu li.selected button {
-  background: #e6d8b8;
-  color: #7c2d12;
-  border-bottom-color: #7c2d12;
-}
-
-.blueprint-detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.blueprint-detail h3 {
-  font-size: 20px;
-  margin: 0 0 2px 0;
-  color: #7c2d12;
-}
-
-.cat-lbl {
-  font-family: monospace;
-  font-size: 10px;
-  color: #8b5a2b;
-  letter-spacing: 0.5px;
-}
-
-.blueprint-img-border {
-  width: 100%;
-  height: 150px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 2px solid #cbd5e1;
-  background: #0d0d12;
-  margin-bottom: 12px;
-}
-
-.blueprint-img-border img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.blueprint-desc h5 {
-  font-family: monospace;
-  font-size: 10px;
-  color: #8b5a2b;
-  margin: 0 0 4px 0;
-  letter-spacing: 1px;
-}
-
-.blueprint-desc p {
-  font-size: 12px;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.blueprint-desc p.tools-spec {
-  color: #7c2d12;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.blueprint-desc p.description-spec {
-  color: #5c3d2e;
-}
-
-.blueprint-link {
-  width: 100%;
-  padding: 10px;
-  background: #d97706;
-  border: 1px solid #b45309;
-  border-radius: 4px;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-sizing: border-box;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.blueprint-link:hover {
-  background: #b45309;
-  box-shadow: 0 4px 8px rgba(180, 83, 9, 0.4);
-}
-
-/* Cozy Village Footer */
-.village-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-  font-family: monospace;
-  font-size: 11px;
-  color: #cbd5e1;
-  border-top: 2px solid #5c3d2e;
-  background: rgba(43, 45, 66, 0.85);
-  backdrop-filter: blur(6px);
-  z-index: 100;
-  box-sizing: border-box;
-}
-
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Keyframe fades */
 .fade-in {
   animation: fadeIn 0.4s ease-out forwards;
 }
@@ -594,1003 +610,56 @@
   }
 }
 
-/* Responsive constraints */
-@media screen and (max-width: 1024px) {
-  .village-signpost {
-    width: 220px;
-    left: 20px;
-  }
-  .village-terminal {
-    left: 280px;
-    right: 20px;
-  }
-  .parchment-panel {
-    width: 100%;
-  }
-}
+/* ─── Responsive ─── */
 
 @media screen and (max-width: 768px) {
+  .cozy-quest-diary {
+    top: auto;
+    bottom: 200px;
+    right: 12px;
+    width: 200px;
+    padding: 12px;
+  }
+
+  .diary-item {
+    font-size: 11px;
+  }
+
+  .rpg-dialogue-scroll {
+    bottom: 48px;
+    width: calc(100% - 24px);
+  }
+
+  .dialogue-scroll-inner {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .dialogue-npc-portrait {
+    width: 52px;
+    height: 52px;
+  }
+
+  .dialogue-text {
+    font-size: 13px;
+  }
+
   .village-header {
-    padding: 0 20px;
+    padding: 10px 12px;
   }
-  .hud-player-status {
-    display: none;
+
+  .hud-nav-btn {
+    font-size: 11px;
+    padding: 6px 10px;
   }
-  .village-signpost {
-    position: static;
-    width: calc(100% - 40px);
-    margin: 80px auto 20px auto;
-  }
-  .village-signpost ul::before {
-    display: none;
-  }
-  .village-terminal {
-    position: static;
-    width: calc(100% - 40px);
-    margin: 0 auto;
-    height: auto;
-  }
-  .parchment-panel {
-    position: static;
-    width: 100%;
-    height: auto;
-    margin-bottom: 80px;
-  }
-  .village-main {
-    overflow-y: auto;
-    height: auto;
-  }
-}
 
-/* Availability Pulse Indicator */
-.availability-pulse {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 11px;
-  color: #10b981;
-  text-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
-  animation: availabilityBlink 2.5s infinite alternate;
-}
-
-@keyframes availabilityBlink {
-  0% {
-    box-shadow: 0 0 2px rgba(16, 185, 129, 0.2);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-  }
-}
-
-/* RPG Section Cards (About Cottage) */
-.rpg-section-card {
-  background: #fdfaf2;
-  border: 2px solid #e6d8b8;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.rpg-card-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: bold;
-  color: #7c2d12;
-  margin: 0 0 8px 0 !important;
-  letter-spacing: 0.5px;
-}
-
-.card-subtitle {
-  font-size: 12px;
-  font-weight: bold;
-  color: #8b5a2b;
-  margin: 0 0 6px 0;
-}
-
-.card-desc {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #5c3d2e;
-}
-
-.card-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.card-list li {
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 8px;
-  color: #5c3d2e;
-  position: relative;
-  padding-left: 15px;
-}
-
-.card-list li::before {
-  content: "♦";
-  position: absolute;
-  left: 0;
-  color: #d97706;
-}
-
-/* Skill progress meters */
-.rpg-skill-meters {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.skill-meter-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.meter-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12.5px;
-  font-weight: bold;
-  color: #5c3d2e;
-}
-
-.meter-bar {
-  width: 100%;
-  height: 8px;
-  background: #e6d8b8;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid #d9cbab;
-}
-
-.meter-fill {
-  height: 100%;
-  background: #d97706;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
-}
-
-/* Right-aligned Telemetry Log Stream Ticker */
-.telemetry-log-ticker {
-  position: fixed;
-  top: 100px;
-  right: 40px;
-  width: 260px;
-  background: rgba(10, 10, 12, 0.85);
-  border: 2px solid #5c3d2e;
-  border-radius: 6px;
-  padding: 16px;
-  z-index: 85;
-  box-sizing: border-box;
-  font-family: monospace;
-}
-
-.ticker-title {
-  font-size: 11px;
-  font-weight: bold;
-  color: #fbbf24;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 6px;
-}
-
-.ticker-scroll {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 180px;
-  overflow-y: hidden;
-}
-
-.ticker-line {
-  font-size: 10px;
-  line-height: 1.3;
-  color: #10b981;
-  text-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
-  word-break: break-all;
-}
-
-/* Interactive CLI Terminal Console (Zone 3 - Bottom) */
-.rpg-terminal-console {
-  position: fixed;
-  bottom: 65px;
-  left: 40px;
-  width: 280px;
-  height: 180px;
-  background: #0d0d0f;
-  border: 2px solid #3f2a14;
-  border-radius: 6px;
-  padding: 12px;
-  z-index: 95;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  font-family: monospace;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  pointer-events: auto;
-}
-
-.terminal-header {
-  font-size: 10px;
-  font-weight: bold;
-  color: #a3a3a3;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 4px;
-}
-
-.terminal-dot {
-  width: 6px;
-  height: 6px;
-  background: #dc2626;
-  border-radius: 50%;
-  animation: terminalBlink 1.5s infinite;
-}
-
-@keyframes terminalBlink {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-.terminal-output {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 6px;
-  padding-right: 4px;
-}
-
-.terminal-output::-webkit-scrollbar {
-  width: 3px;
-}
-.terminal-output::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1.5px;
-}
-
-.terminal-line {
-  font-size: 10px;
-  line-height: 1.4;
-  color: #e5e7eb;
-  white-space: pre-wrap;
-}
-
-.terminal-form {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.02);
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  padding-top: 4px;
-}
-
-.prompt-symbol {
-  color: #39FF14;
-  font-weight: bold;
-  font-size: 11px;
-}
-
-.terminal-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 10.5px;
-  padding: 2px 0;
-}
-
-/* YOLO Bounding Box Cards (Zone 2) */
-.vision-card {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s !important;
-}
-
-/* Corner HUD crosshairs */
-.ch {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-color: #3f2a14;
-  border-style: solid;
-  opacity: 0.7;
-  transition: all 0.3s;
-}
-
-.ch-tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
-.ch-tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
-.ch-bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
-.ch-br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
-
-.workshop-card-container:hover .ch,
-.workshop-card-container.selected .ch {
-  border-color: #39FF14;
-  opacity: 1;
-}
-
-/* Bounding box border overlay on hover */
-.workshop-card-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1.5px solid transparent;
-  pointer-events: none;
-  border-radius: 4px;
-  transition: border-color 0.3s;
-  z-index: 10;
-}
-
-.workshop-card-container:hover::after,
-.workshop-card-container.selected::after {
-  border-color: #39FF14;
-}
-
-/* YOLO tag popup */
-.yolo-tag {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: #3f2a14;
-  color: #fef3c7;
-  font-family: monospace;
-  font-size: 8px;
-  padding: 1px 4px;
-  border-bottom-right-radius: 4px;
-  font-weight: bold;
-  opacity: 0.5;
-  transition: all 0.3s;
-  z-index: 11;
-}
-
-.workshop-card-container:hover .yolo-tag,
-.workshop-card-container.selected .yolo-tag {
-  background: #39FF14;
-  color: #000000;
-  opacity: 1;
-}
-
-/* CRT monitor glass filter overlay styles */
-.crt-filter::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 9999;
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
-  opacity: 0.8;
-}
-
-.crt-filter::after {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: rgba(18, 16, 16, 0.1);
-  opacity: 0;
-  z-index: 9999;
-  pointer-events: none;
-  animation: crtFlicker 0.15s infinite;
-}
-
-@keyframes crtFlicker {
-  0% { opacity: 0.07; }
-  50% { opacity: 0.09; }
-  100% { opacity: 0.07; }
-}
-
-.crt-active-btn {
-  background: rgba(57, 255, 20, 0.25) !important;
-  color: #39FF14 !important;
-  border-color: #39FF14 !important;
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.4) !important;
-}
-
-/* Responsive adjustment overlays */
-@media screen and (max-width: 1024px) {
-  .telemetry-log-ticker {
-    display: none;
-  }
-  .rpg-terminal-console {
+  .village-footer .footer-left {
     display: none;
   }
 }
 
-/* Arcade Game Intro Screen */
-.arcade-intro-overlay {
-  position: fixed;
-  inset: 0;
-  background: #050508;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 20px;
-  box-sizing: border-box;
+@media screen and (max-width: 480px) {
+  .cozy-quest-diary {
+    display: none;
+  }
 }
-
-.arcade-cabinet {
-  position: relative;
-  max-width: 580px;
-  width: 100%;
-  background: #0c0c0f;
-  border: 3px solid #3f2a14;
-  border-radius: 8px;
-  padding: 40px 30px;
-  box-sizing: border-box;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(63, 42, 20, 0.3);
-  font-family: monospace;
-}
-
-.arcade-crt-effect {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
-  border-radius: 6px;
-  opacity: 0.45;
-}
-
-.hud-header-glitch {
-  font-size: 11px;
-  color: #39FF14;
-  text-shadow: 0 0 4px rgba(57, 255, 20, 0.4);
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-
-.arcade-title {
-  font-size: 32px;
-  color: #fcd34d;
-  margin: 0;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(252, 211, 77, 0.2);
-}
-
-.arcade-subtitle {
-  font-size: 14px;
-  color: #cbd5e1;
-  margin: 8px 0 25px 0;
-  font-weight: normal;
-}
-
-.arcade-status-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.status-stat {
-  background: #111115;
-  border: 1px solid #3f2a14;
-  border-radius: 4px;
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.status-stat span:first-child {
-  font-size: 9px;
-  color: #94a3b8;
-}
-
-.status-stat span:last-child {
-  font-size: 11px;
-  font-weight: bold;
-  color: #39FF14;
-}
-
-.arcade-desc {
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #94a3b8;
-  margin: 0 0 35px 0;
-  text-align: justify;
-}
-
-.arcade-btn-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.arcade-btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.3s;
-  border: 2px solid transparent;
-  box-sizing: border-box;
-}
-
-.btn-primary {
-  background: #39FF14;
-  color: #000000;
-  border-color: #39FF14;
-  box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
-}
-
-.btn-primary:hover {
-  background: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #ffffff;
-  border-color: #3f2a14;
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: #cbd5e1;
-}
-
-/* Challenge Modals Popup Overlay */
-.challenge-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 5, 8, 0.75);
-  backdrop-filter: blur(4px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 500;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.challenge-modal-panel {
-  position: relative;
-  max-width: 440px;
-  width: 100%;
-  background: #fdfaf2;
-  border: 3px solid #3f2a14;
-  border-radius: 8px;
-  padding: 25px;
-  box-sizing: border-box;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  font-family: monospace;
-}
-
-.challenge-title {
-  font-size: 15px;
-  font-weight: bold;
-  color: #7c2d12;
-  margin: 0 0 12px 0;
-  border-bottom: 2px solid #e6d8b8;
-  padding-bottom: 8px;
-  letter-spacing: 0.5px;
-}
-
-.challenge-desc {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #5c3d2e;
-  margin: 0 0 20px 0;
-}
-
-.challenge-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  color: #9a3412;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.challenge-close-btn:hover {
-  color: #7c2d12;
-}
-
-/* Cottage scanner mini-game */
-.scanner-body {
-  background: #0d0d0f;
-  border: 1px solid #3f2a14;
-  border-radius: 4px;
-  padding: 16px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-.scanner-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #39FF14;
-  opacity: 0.6;
-  animation: scannerScan 2s linear infinite;
-  box-shadow: 0 0 8px #39FF14;
-}
-
-@keyframes scannerScan {
-  0% { top: 0%; }
-  50% { top: 100%; }
-  100% { top: 0%; }
-}
-
-.scanner-progress-bar {
-  width: 100%;
-  height: 6px;
-  background: #27272a;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-top: 15px;
-}
-
-.scanner-fill {
-  height: 100%;
-  background: #39FF14;
-  width: 0%;
-  transition: width 0.3s ease-out;
-  box-shadow: 0 0 8px #39FF14;
-}
-
-.scanner-desc {
-  font-size: 10px;
-  color: #a3a3a3;
-  margin: 10px 0 0 0;
-}
-
-.challenge-unsealed-content {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-.scan-loader-placeholder {
-  font-size: 10px;
-  color: #8b5a2b;
-  text-align: center;
-  font-style: italic;
-}
-
-/* Skills harvesting mini-game */
-.harvest-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.harvest-btn {
-  padding: 10px;
-  background: #f0e6d2;
-  border: 1.5px solid #d9cbab;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 11px;
-  color: #5c3d2e;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-weight: bold;
-}
-
-.harvest-btn:hover {
-  background: #e6d8b8;
-  border-color: #c4b595;
-}
-
-.harvest-btn.harvested {
-  background: #e6fcf5;
-  border-color: #a3e635;
-  color: #166534;
-  cursor: default;
-}
-
-.harvest-score {
-  font-size: 11px;
-  font-weight: bold;
-  color: #7c2d12;
-  text-align: center;
-}
-
-/* Windmill gear sync mini-game */
-.gear-aligner-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.gear-visual {
-  width: 70px;
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Projects decryption mini-game */
-.decrypt-box {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.decrypt-selector {
-  width: 100%;
-  padding: 8px;
-  background: #ffffff;
-  border: 1.5px solid #d9cbab;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 11.5px;
-  color: #3f2a14;
-}
-
-.decrypted-result {
-  text-align: center;
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-/* 3D HTML Nameplates */
-.npc-nameplate {
-  background: rgba(15, 23, 42, 0.9);
-  border: 1.5px solid #fbbf24;
-  border-radius: 4px;
-  padding: 4px 10px;
-  text-align: center;
-  font-family: monospace;
-  white-space: nowrap;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-  user-select: none;
-}
-
-.npc-title {
-  font-size: 9.5px;
-  font-weight: bold;
-  color: #fbbf24;
-  letter-spacing: 0.5px;
-}
-
-.npc-subtitle {
-  font-size: 8px;
-  color: #cbd5e1;
-  margin-top: 1px;
-}
-
-.player-nameplate {
-  background: rgba(234, 88, 12, 0.9);
-  border: 1px solid #ffedd5;
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-family: monospace;
-  font-size: 8px;
-  font-weight: bold;
-  color: #ffffff;
-  white-space: nowrap;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Cozy Quest Diary Panel (Right Column) */
-.cozy-quest-diary {
-  position: fixed;
-  top: 100px;
-  right: 40px;
-  width: 260px;
-  background: #fdfaf2;
-  border: 3px solid #3f2a14;
-  border-radius: 6px;
-  padding: 16px;
-  z-index: 85;
-  box-sizing: border-box;
-  font-family: monospace;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.diary-header {
-  font-size: 11px;
-  font-weight: bold;
-  color: #7c2d12;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
-  border-bottom: 1.5px solid #e6d8b8;
-  padding-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.diary-checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.diary-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
-  color: #5c3d2e;
-}
-
-.diary-item.completed {
-  text-decoration: line-through;
-  color: #9ca3af;
-}
-
-.diary-item span:first-child {
-  font-size: 13px;
-  font-weight: bold;
-  color: #d97706;
-}
-
-.diary-summary {
-  font-size: 10px;
-  font-weight: bold;
-  color: #7c2d12;
-  text-align: right;
-  border-top: 1px dashed #e6d8b8;
-  padding-top: 6px;
-}
-
-/* Cozy RPG Dialogue Box HUD (Replaces bottom terminal console) */
-.rpg-dialogue-box-hud {
-  position: fixed;
-  bottom: 65px;
-  left: 40px;
-  width: 280px;
-  height: 180px;
-  background: #fdfaf2;
-  border: 3px solid #3f2a14;
-  border-radius: 6px;
-  padding: 14px;
-  z-index: 95;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  pointer-events: auto;
-}
-
-.dialogue-header {
-  font-size: 10px;
-  font-weight: bold;
-  color: #7c2d12;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  border-bottom: 1.5px solid #e6d8b8;
-  padding-bottom: 4px;
-}
-
-.dialogue-dot {
-  width: 6px;
-  height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-}
-
-.dialogue-content {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.dialogue-text {
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: #3f2a14;
-  margin: 0;
-  font-family: inherit;
-  text-align: justify;
-}
-
-.dialogue-voice-btn {
-  padding: 2px 6px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.dialogue-voice-btn:hover {
-  background: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* High-visibility links and buttons */
-.arcade-links {
-  margin: 18px 0;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.arcade-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #1e1b18;
-  color: #fbbf24;
-  border: 1.8px solid #ca8a04;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-family: monospace;
-  font-size: 11px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.2s;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-}
-
-.arcade-link-btn:hover {
-  background: #ca8a04;
-  color: #1e1b18;
-  box-shadow: 0 0 15px rgba(202, 138, 4, 0.6);
-  transform: translateY(-1.5px);
-}
-
-.hud-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: #fdfaf2;
-  color: #7c2d12;
-  border: 1.5px solid #3f2a14;
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-family: monospace;
-  font-size: 10px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-
-.hud-action-btn:hover {
-  background: #7c2d12;
-  color: #fdfaf2;
-  border-color: #7c2d12;
-}
-
-
-
-
-

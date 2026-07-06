@@ -8,6 +8,7 @@ interface GameState {
   activeChallenge: string | null;
   completedChallenges: string[];
   skipMode: boolean;
+  voiceEnabled: boolean;
   setPhase: (phase: GamePhase) => void;
   setActiveSection: (section: string) => void;
   enterZone: (zoneId: string) => void;
@@ -16,14 +17,16 @@ interface GameState {
   solveChallenge: (zoneId: string) => void;
   resetGame: () => void;
   toggleSkipMode: () => void;
+  toggleVoice: () => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
-  phase: "INTRO",
+  phase: "PLAYING",
   activeSection: "overview",
   activeChallenge: null,
   completedChallenges: JSON.parse(localStorage.getItem("completedChallenges") || "[]"),
   skipMode: false,
+  voiceEnabled: true,
   
   setPhase: (phase) => {
     set({ phase });
@@ -72,5 +75,9 @@ export const useGameStore = create<GameState>((set) => ({
 
   toggleSkipMode: () => {
     set((state) => ({ skipMode: !state.skipMode }));
+  },
+  
+  toggleVoice: () => {
+    set((state) => ({ voiceEnabled: !state.voiceEnabled }));
   }
 }));
